@@ -1,0 +1,11 @@
+# Ignore build folders
+build/
+bin/
+
+# Ignore compiled binaries
+*.hex
+*.elf
+
+# Ignore local preferences
+.DS_Store
+desktop.ini
