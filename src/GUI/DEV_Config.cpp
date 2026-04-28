@@ -43,11 +43,11 @@ void GPIO_Init()
     GPIO_Init();
 
     //Serial
-    Serial.begin(115200);
+    //Serial.begin(115200); //TODO ovo ne valjda to je dobro
 
     //spi
-    SPI.setDataMode(SPI_MODE3);
-    SPI.setBitOrder(MSBFIRST);
-    SPI.setClockDivider(SPI_CLOCK_DIV2);
-    SPI.begin();
+    SPI_LCD.setDataMode(SPI_MODE3);
+    SPI_LCD.setBitOrder(MSBFIRST);
+    SPI_LCD.setClockDivider(SPI_CLOCK_DIV2);
+    SPI_LCD.begin(D_SCLK, -1, D_SDI, DEV_CS_PIN); //valjda??? TODO
 }

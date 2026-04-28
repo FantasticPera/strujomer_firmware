@@ -36,7 +36,7 @@
 #include <stdio.h>
 #include <SPI.h>
 #include "Debug.h"
-#include <avr/pgmspace.h>
+#include <pgmspace.h>
 
 
 
@@ -46,11 +46,21 @@
 
 /**
  * GPIO config
+--- DISPLAY PINOVI ---
+#define D_BL   4  
+#define D_CS   5  
+#define D_SDI  6  
+#define D_SCLK 7  
+#define D_RST  8  
+#define D_A0   9  
 **/
-#define DEV_CS_PIN  10
-#define DEV_DC_PIN  7
+#define DEV_CS_PIN  5
+#define DEV_DC_PIN  9
 #define DEV_RST_PIN 8
-#define DEV_BL_PIN  9
+#define DEV_BL_PIN  4
+
+#define D_SDI  6  
+#define D_SCLK 7  
 
 
 /**
@@ -63,7 +73,8 @@
 /**
  * SPI
 **/
-#define DEV_SPI_WRITE(_dat)   SPI.transfer(_dat)
+SPIClass SPI_LCD(FSPI); // ko zna da l treba
+#define DEV_SPI_WRITE(_dat)   SPI_LCD.transfer(_dat)
 
 /**
  * delay x ms

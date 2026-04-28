@@ -38,6 +38,9 @@
 #define POWER_MULTIPLIER 1 //TODO
 #define ENERGY_MULTIPLIER 1 //0.0001?
 
+// --- SPI
+SPIClass SPI_ATM(HSPI);
+
 // Deklaracije funkcija
 void ATM_HardwareReset();
 void ATM_WriteRegister(unsigned short address, unsigned short data);
@@ -70,14 +73,14 @@ Kada spojiš CPOL=1 i CPHA=1, dobijaš definiciju onoga što se u Arduino i ESP3
 
 void ATM_WriteRegister(unsigned short address, unsigned short data) {
   // Za write, MSB bit mora biti 0 (zato se ne radi OR sa 0x8000 kao kod citanja)
-  SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
+  SPI_ATM.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
   digitalWrite(ATM_CS, LOW);
   
-  SPI.transfer16(address); // Saljemo adresu (Write bit = 0)
-  SPI.transfer16(data);    // Saljemo 16-bitni podatak
+  SPI_ATM.transfer16(address); // Saljemo adresu (Write bit = 0)
+  SPI_ATM.transfer16(data);    // Saljemo 16-bitni podatak
   
   digitalWrite(ATM_CS, HIGH);
-  SPI.endTransaction();
+  SPI_ATM.endTransaction();
   delay(1); // Kratka pauza za sigurnost
 }
 
@@ -85,14 +88,14 @@ unsigned short ATM_ReadRegister(unsigned short address) {
   unsigned short data = 0;
   unsigned short command = (address | 0x8000); // Za read, MSB mora biti 1
   
-  SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
+  SPI_ATM.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
   digitalWrite(ATM_CS, LOW);
   
-  SPI.transfer16(command);
-  data = SPI.transfer16(0x0000); // Citamo
+  SPI_ATM.transfer16(command);
+  data = SPI_ATM.transfer16(0x0000); // Citamo
   
   digitalWrite(ATM_CS, HIGH);
-  SPI.endTransaction();
+  SPI_ATM.endTransaction();
   
   return data;
 }
