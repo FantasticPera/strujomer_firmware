@@ -3,7 +3,8 @@
 
 void setup() {
   Serial.begin(115200);
-  ATM_init();
+  SPI.begin(); // valjda mora i ovo
+  ATM_Init();
   Serial.println("V,I,F,P,E");
 }
 

@@ -134,7 +134,7 @@ void ATM_Init() {
 
   // Konfiguracija MMode registra (adresa 0x2B)
   // Upisujemo 0x9422: Lgain=1x, Ngain=1x, HPF=Ukljucen, L-line selektovana
-  ATM_WriteRegister(MMode, 0x9422)
+  ATM_WriteRegister(MMode, 0x9422);
   
   // Provera da li je cip ziv
   unsigned short status = ATM_ReadRegister(SysStatus);
@@ -151,7 +151,7 @@ void ATM_Init() {
 
 // Funkcije za dobijanje realnih vrednosti
 float ATM_GetVoltage() {
-  unsigned short rawVoltage = ATM_ReadRegister(Vrms);
+  unsigned short rawVoltage = ATM_ReadRegister(Urms);
   // Ovu formulu cemo prilagoditi tvom hardveru kasnije.
   // Prema default vrednostima: rawVrms / 100.0
   return rawVoltage / 100.0; 
