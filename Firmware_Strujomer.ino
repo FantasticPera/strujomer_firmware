@@ -35,6 +35,8 @@ void setup() {
   LCD_Init();
   LCD_SetBacklight(100); //max osvetljenost
 
+  Display_DrawStaticUI();
+
   ATM_Init();
   Serial.println("V,I,F,P,E");
 }
