@@ -39,7 +39,10 @@
 #define ENERGY_MULTIPLIER 1 //0.0001?
 
 // --- SPI
-SPIClass SPI_ATM(HSPI);
+extern SPIClass SPI_ATM; //TODO mozda mora isto extern?
+
+void ATM_GPIO_Init();
+void ATM_SPI_Init();
 
 // Deklaracije funkcija
 void ATM_HardwareReset();
@@ -70,6 +73,41 @@ Kada spojiš CPOL=1 i CPHA=1, dobijaš definiciju onoga što se u Arduino i ESP3
 
 
 */
+
+void ATM_GPIO_Init() {
+  // 1. Chip Select (CS)
+  // Must be an OUTPUT. We set it HIGH immediately so the ATM chip 
+  // is "deselected" and doesn't accidentally listen to garbage data on boot.
+  pinMode(ATM_CS, OUTPUT);
+  digitalWrite(ATM_CS, HIGH);
+
+  // 2. Hardware Reset (RESET)
+  // Must be an OUTPUT. The ATM chip resets when this pin is LOW. 
+  // We set it HIGH so the chip can run normally.
+  pinMode(ATM_RESET, OUTPUT);
+  digitalWrite(ATM_RESET, HIGH);
+
+  // 3. Interrupt Request (IRQ)
+  // Must be an INPUT. Since IRQ pins are typically "active-low" and open-drain,
+  // we use INPUT_PULLUP to keep it reliably HIGH until the ATM chip pulls it LOW.
+  pinMode(ATM_IRQ, INPUT_PULLUP);
+  
+  // NOTE: ATM_SDI, ATM_SDO, and ATM_SCLK are automatically configured 
+  // when you call SPI_ATM.begin(ATM_SCLK, ATM_SDO, ATM_SDI, ATM_CS);
+}
+
+void ATM_SPI_Init() {
+  ATM_GPIO_Init();
+
+  SPI_ATM.begin(ATM_SCLK, ATM_SDO, ATM_SDI, ATM_CS);
+  //ovo dole je mozda nepotrebno? TODO obrisati mozda...
+  SPI_ATM.setDataMode(SPI_MODE3);
+  SPI_ATM.setBitOrder(MSBFIRST);
+  SPI_ATM.setClockDivider(SPI_CLOCK_DIV2);
+
+  
+
+}
 
 void ATM_WriteRegister(unsigned short address, unsigned short data) {
   // Za write, MSB bit mora biti 0 (zato se ne radi OR sa 0x8000 kao kod citanja)
@@ -102,6 +140,8 @@ unsigned short ATM_ReadRegister(unsigned short address) {
 
 void ATM_Init() {
   Serial.println("Inicijalizacija ATM90E26...");
+
+  ATM_SPI_Init();
   
   // 1. Hardverski i softverski reset
   ATM_HardwareReset();

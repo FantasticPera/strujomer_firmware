@@ -29,7 +29,7 @@
 ******************************************************************************/
 #include "DEV_Config.h"
 
-SPIClass SPI_LCD(FSPI);
+// SPIClass SPI_LCD(FSPI);
 
 void GPIO_Init()
 {
@@ -48,8 +48,8 @@ void GPIO_Init()
     //Serial.begin(115200); //TODO ovo ne valjda to je dobro
 
     //spi
+    SPI_LCD.begin(D_SCLK, -1, D_SDI, DEV_CS_PIN); //valjda??? TODO
     SPI_LCD.setDataMode(SPI_MODE3);
     SPI_LCD.setBitOrder(MSBFIRST);
     SPI_LCD.setClockDivider(SPI_CLOCK_DIV2);
-    SPI_LCD.begin(D_SCLK, -1, D_SDI, DEV_CS_PIN); //valjda??? TODO
 }

@@ -6,12 +6,15 @@
 //#include "GUI_Paint.h"
 //#include "image.h"
 
-//SPIClass SPI_ATM(HSPI);
-//SPIClass SPI_LCD(FSPI);
+SPIClass SPI_ATM(HSPI);
+SPIClass SPI_LCD(FSPI);
+
+
 
 void setup() {
   Serial.begin(115200);
-  SPI_ATM.begin(ATM_SCLK, ATM_SDO, ATM_SDI, ATM_CS); // valjda mora i ovo
+  //SPI_ATM.begin(ATM_SCLK, ATM_SDO, ATM_SDI, ATM_CS); // valjda mora i ovo
+  //ATM_SPI_Init(); poziva se u ATM_Init();
 
   //display settings:
   Config_Init();
