@@ -29,6 +29,8 @@
 ******************************************************************************/
 #include "DEV_Config.h"
 
+SPIClass SPI_LCD(FSPI);
+
 void GPIO_Init()
 {
     pinMode(DEV_CS_PIN, OUTPUT);

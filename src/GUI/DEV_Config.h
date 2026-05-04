@@ -37,7 +37,7 @@
 #include <SPI.h>
 #include "Debug.h"
 #include <pgmspace.h>
-
+#include <Arduino.h>
 
 
 #define UBYTE   uint8_t
@@ -73,7 +73,7 @@
 /**
  * SPI
 **/
-SPIClass SPI_LCD(FSPI); // ko zna da l treba
+extern SPIClass SPI_LCD; // ko zna da l treba
 #define DEV_SPI_WRITE(_dat)   SPI_LCD.transfer(_dat)
 
 /**

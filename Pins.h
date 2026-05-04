@@ -2,6 +2,7 @@
 #define PINS_H
 
 // --- DISPLAY PINOVI ---
+//TODO mozda skloni
 #define D_BL   4  
 #define D_CS   5  
 #define D_SDI  6  
