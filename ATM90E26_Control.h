@@ -208,7 +208,7 @@ float ATM_GetCurrent() {
 
 float ATM_GetFrequency() {
   unsigned short rawFreq = ATM_ReadRegister(Freq); // Adresa 0x4C
-  return rawFreq / 100.0; // Npr. 5000 postane 50.00 Hz
+  return rawFreq / 100.0; // Npr. 5000 postane 50.00 Hz  TODO ove konstante
 }
 
 float ATM_GetActivePower() {
